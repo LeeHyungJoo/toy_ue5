@@ -9,7 +9,7 @@ UBaseUnit::UBaseUnit()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	UE_LOG(LogInit, Error, TEXT("UBaseUnit Init!"));
+	UE_LOG(LogTemp, Error, TEXT("UBaseUnit Init!"));
 	// ...
 }
 
@@ -19,7 +19,7 @@ void UBaseUnit::BeginPlay()
 {
 
 	Super::BeginPlay();
-	UE_LOG(LogInit, Error, TEXT("UBaseUnit BeginPlay!"));
+	UE_LOG(LogTemp, Error, TEXT("UBaseUnit BeginPlay!"));
 	// ...
 	
 }
@@ -32,6 +32,6 @@ void UBaseUnit::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// ...
 
-	UE_LOG(LogInit, Error, TEXT("U_BASEUNIT_TICK : %f"), DeltaTime);
+	UE_LOG(LogTemp, Error, TEXT("U_BASEUNIT_TICK : %f"), DeltaTime);
 }
 
