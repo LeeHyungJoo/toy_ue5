@@ -11,22 +11,25 @@ ATestActor::ATestActor()
 
 	body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BODY"));
 	energy_orb = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ENERGY_ORB"));
+	orb_aura = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ORB_PARTICLE"));
 
 	//Transform 지정.
 	RootComponent = body;
 	body->SetWorldScale3D(FVector(0.5f));
+
 	energy_orb->SetupAttachment(body);
-
-	energy_orb->SetRelativeLocation(FVector(0, 0, 40.0f));
-	energy_orb->SetRelativeScale3D(FVector(0.5f));
-
-
+	orb_aura->SetupAttachment(energy_orb);
+	energy_orb->SetRelativeLocation(FVector(default_orb_radius, 0, 15.0f));
+	
 	//메시 지정 (레퍼런스 복사 이용)
-	ConstructorHelpers::FObjectFinder<UStaticMesh>
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>
 		sm_body(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh>
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>
 		sm_energy_orb(TEXT("/Script/Engine.StaticMesh'/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere'"));
+
+	static ConstructorHelpers::FObjectFinder<UParticleSystem>
+		p_orb_aura(TEXT("/Script/Engine.ParticleSystem'/Game/StarterContent/Particles/P_Smoke.P_Smoke'"));
 
 	if (sm_body.Succeeded())
 	{
@@ -45,19 +48,41 @@ ATestActor::ATestActor()
 	{
 		UE_LOG(LogAssetData, Error, TEXT("sm_energy_orb load failed"));
 	}
+
+	if (p_orb_aura.Succeeded())
+	{
+		orb_aura->SetTemplate(p_orb_aura.Object);
+	}
+	else
+	{
+		UE_LOG(LogAssetData, Error, TEXT("orb_aura load failed"));
+	}
 }
 
 // Called when the game starts or when spawned
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	FVector root_location = RootComponent->GetComponentTransform().GetLocation();
+	UE_LOG(LogTemp, Log, TEXT("root world pos : (%d, %d, %d)"), 
+		root_location.X, root_location.Y, root_location.Z);
 }
 
 // Called every frame
 void ATestActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	FVector loc = energy_orb->GetRelativeLocation();
 
+	degree += (double)DeltaTime;
+	if (degree > 360)
+		degree = 0;
+	
+	loc.X = cos(degree) * default_orb_radius;
+	loc.Y = sin(degree) * default_orb_radius;
+
+	energy_orb->SetRelativeLocation(loc);
 }
 

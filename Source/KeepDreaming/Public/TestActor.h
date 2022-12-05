@@ -28,4 +28,13 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* energy_orb;
+
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystemComponent* orb_aura;
+	
+
+	UPROPERTY(EditAnyWhere, Category="default_orb_radius")
+	int32 default_orb_radius = 120;
+
+	double degree = 90.0;
 };
