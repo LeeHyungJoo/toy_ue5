@@ -13,7 +13,7 @@ ATestActor::ATestActor()
 	energy_orb = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ENERGY_ORB"));
 	orb_aura = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ORB_PARTICLE"));
 
-	//Transform 지정.
+	//Transform
 	RootComponent = body;
 	body->SetWorldScale3D(FVector(0.5f));
 
@@ -21,7 +21,7 @@ ATestActor::ATestActor()
 	orb_aura->SetupAttachment(energy_orb);
 	energy_orb->SetRelativeLocation(FVector(default_orb_radius, 0, 15.0f));
 	
-	//메시 지정 (레퍼런스 복사 이용)
+	//
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>
 		sm_body(TEXT("/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube"));
 
@@ -35,27 +35,15 @@ ATestActor::ATestActor()
 	{
 		body->SetStaticMesh(sm_body.Object);
 	}
-	else
-	{
-		UE_LOG(LogAssetData, Error, TEXT("body load failed"));
-	}
 
 	if (sm_energy_orb.Succeeded())
 	{
 		energy_orb->SetStaticMesh(sm_energy_orb.Object);
 	}
-	else
-	{
-		UE_LOG(LogAssetData, Error, TEXT("sm_energy_orb load failed"));
-	}
 
 	if (p_orb_aura.Succeeded())
 	{
 		orb_aura->SetTemplate(p_orb_aura.Object);
-	}
-	else
-	{
-		UE_LOG(LogAssetData, Error, TEXT("orb_aura load failed"));
 	}
 }
 
@@ -65,8 +53,7 @@ void ATestActor::BeginPlay()
 	Super::BeginPlay();
 
 	FVector root_location = RootComponent->GetComponentTransform().GetLocation();
-	UE_LOG(LogTemp, Log, TEXT("root world pos : (%d, %d, %d)"), 
-		root_location.X, root_location.Y, root_location.Z);
+	HJ_LOG(Log, TEXT("root world pos : (%f, %f, %f)"), root_location.X, root_location.Y, root_location.Z);
 }
 
 // Called every frame

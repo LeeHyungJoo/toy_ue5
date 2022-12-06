@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineMinimal.h"
+#include "../KeepDreaming.h"
 #include "GameFramework/Actor.h"
 #include "TestActor.generated.h"
 
