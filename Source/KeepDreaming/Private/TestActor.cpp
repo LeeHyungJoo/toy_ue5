@@ -56,6 +56,20 @@ void ATestActor::BeginPlay()
 	HJ_LOG(Log, TEXT("root world pos : (%f, %f, %f)"), root_location.X, root_location.Y, root_location.Z);
 }
 
+void ATestActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	HJ_CALL_LOG(Log);
+}
+
+void ATestActor::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	HJ_CALL_LOG(Log);
+}
+
 // Called every frame
 void ATestActor::Tick(float DeltaTime)
 {

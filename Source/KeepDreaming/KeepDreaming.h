@@ -3,6 +3,7 @@
 #pragma once
 
 #include "EngineMinimal.h"
+#include "Public/HJ_Utill.h"
 
 DECLARE_LOG_CATEGORY_CLASS(HJ, Log, All);
 #define _HJ_INFO (FString(__FUNCTION__) + TEXT("- [") + FString::FromInt(__LINE__)+ TEXT("]"))
